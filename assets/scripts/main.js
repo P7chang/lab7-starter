@@ -69,6 +69,10 @@ function saveRecipesToStorage(recipes) {
 	// B1. TODO - Complete the functionality as described in this function
 	//            header. It is possible in only a single line, but should
 	//            be no more than a few lines.
+
+	let stringRec = JSON.stringify(recipes);
+	localStorage.setItem('recipes', stringRec);
+
 }
 
 /**
@@ -77,6 +81,9 @@ function saveRecipesToStorage(recipes) {
  */
 function initFormHandler() {
 	// B2. TODO - Get a reference to the <form> element
+
+	let formRef = document.querySelector('form');
+
 	// B3. TODO - Add an event listener for the 'submit' event, which fires when the
 	//            submit button is clicked
 	// Steps B4-B9 will occur inside the event listener from step B3
@@ -89,9 +96,55 @@ function initFormHandler() {
 	// B8. TODO - Append this new <recipe-card> to <main>
 	// B9. TODO - Get the recipes array from localStorage, add this new recipe to it, and
 	//            then save the recipes array back to localStorage
+	formRef.addEventListener("submit", () => {
+		//4
+		let formDataObj = new FormData(formRef);
+		//console.log(formDataObj);
+		//5
+		let receipeObject = new Object();
+		for (const KV of formDataObj.entries()) {
+			receipeObject[KV[0]] = KV[1];
+			/*
+			if (KV[0] === 'rating' || KV[0] === 'numRatings') {
+				receipeObject[KV[0]] = KV[1];
+				console.log(KV[0], KV[1]);
+			} else {
+				receipeObject[KV[0]] = JSON.stringify(KV[1]);
+				console.log(KV[0], JSON.stringify(KV[1]));
+			}*/
+		}
+		//console.log('RDATA', receipeObject);
+		//6
+		let newRC = document.createElement('recipe-card');
+		//7
+		newRC.data = receipeObject;
+		//8
+		let mainRef = document.querySelector('main');
+		mainRef.append(newRC);
+		//9
+		let curRec = JSON.parse(localStorage.getItem('recipes'));
+		//console.log(curRec[0]);
+		//console.log(curRec);
+		curRec.push(receipeObject);
+		console.log(curRec[-1]);
+		localStorage.setItem('recipes', JSON.stringify(curRec));
+	});
+
 	// B10. TODO - Get a reference to the "Clear Local Storage" button
+
+	let clearBut = formRef.querySelector('button[type="button"]')
+
 	// B11. TODO - Add a click event listener to clear local storage button
 	// Steps B12 & B13 will occur inside the event listener from step B11
 	// B12. TODO - Clear the local storage
 	// B13. TODO - Delete the contents of <main>
+
+	clearBut.addEventListener("click", () => {
+		//12
+		localStorage.clear();
+		//13
+		let mainRef = document.querySelector('main');
+		mainRef.innerHTML = '';
+	})
+
 }
