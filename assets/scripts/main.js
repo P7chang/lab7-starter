@@ -103,15 +103,15 @@ function initFormHandler() {
 		//5
 		let receipeObject = new Object();
 		for (const KV of formDataObj.entries()) {
-			receipeObject[KV[0]] = KV[1];
-			/*
+			//receipeObject[KV[0]] = KV[1];
+			
 			if (KV[0] === 'rating' || KV[0] === 'numRatings') {
-				receipeObject[KV[0]] = KV[1];
-				console.log(KV[0], KV[1]);
+				receipeObject[KV[0]] = Number(KV[1]);
+				//console.log(KV[0], KV[1]);
 			} else {
-				receipeObject[KV[0]] = JSON.stringify(KV[1]);
-				console.log(KV[0], JSON.stringify(KV[1]));
-			}*/
+				receipeObject[KV[0]] = KV[1];
+				//console.log(KV[0], JSON.stringify(KV[1]));
+			}
 		}
 		//console.log('RDATA', receipeObject);
 		//6
@@ -122,7 +122,7 @@ function initFormHandler() {
 		let mainRef = document.querySelector('main');
 		mainRef.append(newRC);
 		//9
-		let curRec = JSON.parse(localStorage.getItem('recipes'));
+		let curRec = getRecipesFromStorage();//JSON.parse(localStorage.getItem('recipes'));
 		//console.log(curRec[0]);
 		//console.log(curRec);
 		curRec.push(receipeObject);
